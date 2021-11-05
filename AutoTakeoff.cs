@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Oxide.Plugins
 {
-    [Info("Auto Takeoff", "0x89A", "1.0.8")]
+    [Info("Auto Takeoff", "0x89A", "1.0.9")]
     [Description("Allows smooth takeoff with helicopters")]
     class AutoTakeoff : RustPlugin
     {
@@ -118,7 +118,7 @@ namespace Oxide.Plugins
 
             MiniCopter helicopter = playerVehicle as MiniCopter;
 
-            if (helicopter != null && helicopter.IsEngineOn() && helicopter.isMobile)
+            if (helicopter != null && helicopter.IsEngineOn())
             {
                 if (!isTakeoff.ContainsKey(helicopter.GetInstanceID()))
                     isTakeoff.Add(helicopter.GetInstanceID(), true);
@@ -142,7 +142,7 @@ namespace Oxide.Plugins
                 else PrintToChat(player, lang.GetMessage("NotOnGround", this, player.UserIDString));
             }
             else if (helicopter == null) PrintToChat(player, lang.GetMessage("NotMounted", this, player.UserIDString));
-            else if (!helicopter.IsEngineOn() || !helicopter.isMobile) PrintToChat(player, lang.GetMessage("NotFlying", this, player.UserIDString));
+            else if (!helicopter.IsEngineOn()) PrintToChat(player, lang.GetMessage("NotFlying", this, player.UserIDString));
         }
 
         #endregion
