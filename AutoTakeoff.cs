@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -118,7 +118,7 @@ namespace Oxide.Plugins
 
             MiniCopter helicopter = playerVehicle as MiniCopter;
 
-            if (helicopter != null && helicopter.IsEngineOn())
+            if (helicopter != null && helicopter.IsEngineOn() && helicopter.isMobile)
             {
                 if (!isTakeoff.ContainsKey(helicopter.GetInstanceID()))
                     isTakeoff.Add(helicopter.GetInstanceID(), true);
@@ -142,7 +142,7 @@ namespace Oxide.Plugins
                 else PrintToChat(player, lang.GetMessage("NotOnGround", this, player.UserIDString));
             }
             else if (helicopter == null) PrintToChat(player, lang.GetMessage("NotMounted", this, player.UserIDString));
-            else if (!helicopter.IsEngineOn()) PrintToChat(player, lang.GetMessage("NotFlying", this, player.UserIDString));
+            else if (!helicopter.IsEngineOn() || !helicopter.isMobile) PrintToChat(player, lang.GetMessage("NotFlying", this, player.UserIDString));
         }
 
         #endregion
@@ -164,7 +164,7 @@ namespace Oxide.Plugins
 
                 float startTime = Time.time;
 
-                while (isTakeoff.ContainsKey(helicopter.GetInstanceID()) && isTakeoff[helicopter.GetInstanceID()] && helicopter.HasAnyPassengers() && helicopter.IsEngineOn())
+                while (isTakeoff.ContainsKey(helicopter.GetInstanceID()) && isTakeoff[helicopter.GetInstanceID()] && helicopter.AnyMounted() && helicopter.IsEngineOn())
                 {
                     float distCovered = (Time.time - startTime) * speed;
 
