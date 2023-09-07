@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Oxide.Plugins
 {
-    [Info("Auto Takeoff", "0x89A", "1.1.0")]
+    [Info("Auto Takeoff", "0x89A", "1.1.1")]
     [Description("Allows smooth takeoff with helicopters")]
     class AutoTakeoff : RustPlugin
     {
@@ -15,7 +15,7 @@ namespace Oxide.Plugins
 
         private const string _canUse = "autotakeoff.use";
 
-        private readonly Dictionary<MiniCopter, bool> _isTakingOff = new Dictionary<MiniCopter, bool>();
+        private readonly Dictionary<Minicopter, bool> _isTakingOff = new Dictionary<Minicopter, bool>();
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace Oxide.Plugins
                 return;
             }
 
-            MiniCopter helicopter = player.GetMountedVehicle() as MiniCopter;
+            Minicopter helicopter = player.GetMountedVehicle() as Minicopter;
             if (helicopter == null)
             {
                 player.ChatMessage(GetMessage("NotMounted", player.UserIDString));
@@ -65,7 +65,7 @@ namespace Oxide.Plugins
             DoTakeOff(player, helicopter);
         }
 
-        private void DoTakeOff(BasePlayer player, MiniCopter helicopter)
+        private void DoTakeOff(BasePlayer player, Minicopter helicopter)
         {
             if (helicopter.IsEngineOn() && helicopter.isMobile)
             {
@@ -97,7 +97,7 @@ namespace Oxide.Plugins
 
         #region -Methods-
 
-        private IEnumerator LerpMethod(MiniCopter helicopter)
+        private IEnumerator LerpMethod(Minicopter helicopter)
         {
             _isTakingOff[helicopter] = true;
             
@@ -128,7 +128,7 @@ namespace Oxide.Plugins
             }
         }
 
-        private void PushMethod(MiniCopter helicopter)
+        private void PushMethod(Minicopter helicopter)
         {
             Rigidbody rb;
             if (!helicopter.TryGetComponent(out rb))
